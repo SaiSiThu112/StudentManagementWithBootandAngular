@@ -1,0 +1,19 @@
+<body class="login-page-body"> 
+  
+    <div class="login-page">
+      <div class="form">
+        <div class="login">
+          <div class="login-header">
+            <h1>Welcome!</h1>
+            <p style="color:red;">{{flag}}</p>
+          </div>
+        </div>
+        <form (ngSubmit)="onSubmit()" >
+          <input type="text" placeholder="User Name" [(ngModel)]="login.userName" name="userName"/>
+          <input type="password" placeholder="Password" [(ngModel)]="login.userPassword" name="userPassword"/>
+          <button>login</button>
+          <p class="message">Not registered? <a routerLink="/adduser">Create an account</a></p>
+        </form>
+      </div>
+    </div>
+</body>

@@ -1,0 +1,173 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/resources/css/test.css}" rel="stylesheet" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <title>Student Registration</title>
+</head>
+
+<body>
+    <style>
+        a{
+            color:white;
+            text-decoration:none;
+        }
+        a:link { text-decoration: none; }
+    </style>
+
+
+        <div id="testheader">
+            <div class="container">
+                <div class=row>        
+                    <div class="col-md-5 ">
+                        <a routerLink="/adduser"><h3>User Registration</h3></a>
+            </div>  
+           <div class="col-md-6" style="color:black;">
+                 <p>
+                    User Name:<span th:if = "${session.userdata!=null}" th:text="${session.userdata}">{{ get()}}</span>
+                </p>
+                <p>Current Date :<span>{{currentDateTime}}</span></p>
+            </div>  
+            <div class="col-md-1" >
+                <input type="button" class="btn-basic" id="lgnout-button" value="Log Out" (click) = "logOut()">
+            </div>        
+        </div>
+    </div>
+    
+    </div>
+       
+        <div class="container">
+        <div class="sidenav">
+    
+        <button> Class Management <i></i></button>
+        <div>
+        <a routerLink="/addcourse">Course Registration </a>
+        <a routerLink="/addstudent">Student Registration </a>
+        <a routerLink="/studentdetail">Student Search </a>
+      </div>
+      <a routerLink="/userdetail">Users Management</a>
+          </div>
+          <div class="main_contents">
+        <div id="sub_content">
+            <h4 style="color:green;" th:text="${success}" >{{message}}</h4>
+            <form (ngSubmit)="onSubmit()" class="row g-3 mt-3 ms-2">
+                
+                <div class="col-auto">
+                    <label for="staticEmail2" class="visually-hidden">User Id</label>
+                    <input type="text" class="form-control"  [(ngModel)]="user.userID"  placeholder="User ID" name="userID" >
+                </div>
+                <div class="col-auto">
+                    <label for="inputPassword2" class="visually-hidden">User Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.userName"  placeholder="User Name" name="userName" >
+                </div>
+        
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Search</button>
+                </div>
+                <div class="col-auto">
+                    <a routerLink="/adduser" type="button" class="btn btn-secondary ">
+                        Add
+                    </a>                
+        
+                </div>
+                <div class="col-auto">
+                    <a   (click) = "showAll()" type="Reset" class="btn btn-danger mb-3">Reset</a>
+                </div>
+                <div class="col-auto">
+                    <div class="dropdown me-2">
+                      <button
+                        class="btn btn-outline-primary"
+                        data-bs-toggle="dropdown" (click)="isClick(true,'')"
+                      >
+                        Export
+                        <i class="fas fa-file-export"></i>
+                      </button>
+                      <ul *ngIf="click=== true">
+                           <div class="row justify-content-center">
+                          <div class="col-4">
+                            <a th:href="@{'/report/'+${'pdf'}}" class="ms-2" (click)="isClick(false,'pdf')" >
+                              <img
+                                src="https://cdn.discordapp.com/attachments/997050883617607720/999971567620599838/unknown.png"
+                                alt="pdf"
+                                width="30px"
+                              />
+                           </a>
+                          </div>
+                          <div class="col-4">
+                            <a th:href="@{'/report/'+${'pdf'}}" class="ms-2" (click)="isClick(false,'html')">
+                              <img
+                              src="https://cdn.discordapp.com/attachments/997050883617607720/999971568048414750/unknown.png"
+                                alt="html"
+                                width="30px"
+                              />
+                            </a>
+                          </div>
+                          <div class="col-4">
+                            <a th:href="@{'report/'+${'excel'}}" (click)="isClick(false,'excel')">
+                            <img
+                              src="https://cdn.discordapp.com/attachments/997050883617607720/999971568518172715/unknown.png"
+                              alt="xls"
+                              width="30px"
+                            />
+                          </a>
+                          </div>
+                          
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+            </form>
+        
+            <table class="table table-striped" id="stduentTable">
+                <thead>
+                    <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Action</th>                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor = "let u of userList">
+                        <td>{{ u.userID}} </td>
+                        <td> {{ u.userName}} </td>
+                        <td> {{ u.userRole}} </td>
+                        <td>
+                            <a class="btn btn-secondary mb-3"  (click) = "updateUser(u.userID)">Update</a>                  	
+                                    
+                            <a (click) = "deleteUser(u.userID)" class="btn btn-danger mb-3" onclick="return confirm('Are you sure to delete')">Delete</a>  
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+            <div id="testfooter">
+                <span>Copyright &#169; ACE Inspiration 2022</span>
+            </div>
+            <script>
+                /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+                var dropdown = document.getElementsByClassName("dropdown-btn");
+                var i;
+                
+                for (i = 0; i < dropdown.length; i++) {
+                  dropdown[i].addEventListener("click", function() {
+                  this.classList.toggle("active");
+                  var dropdownContent = this.nextElementSibling;
+                  if (dropdownContent.style.display === "block") {
+                  dropdownContent.style.display = "none";
+                  } else {
+                  dropdownContent.style.display = "block";
+                  }
+                 });
+               }
+                </script>
+    </body>
+    

@@ -1,0 +1,100 @@
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+       
+<title>Course Registration</title>
+</head>
+
+<body>
+	<div id="testheader">
+		<div class="container">
+			<div class=row>
+				<div class="col-md-5 ">
+					<h3>
+						<a routLink="/addStudent">Student Registration</a>
+					</h3>
+				</div>
+				<div class="col-md-6" style="color:black;">
+            
+            	<p>
+            	User Name:<span th:if = "${session.userdata!=null}" th:text="${session.userdata}"></span>
+            </p>
+            <p>Current Date :<span> {{currentDateTime}}</span></p>
+        </div>  
+				<div class="col-md-1">
+					<input th:type="button" class="btn-basic" id="lgnout-button"
+						value="Log Out" (click)="logOut()" > 
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- <div id="testsidebar">Hello World </div> -->
+	<div class="container">
+		<div class="sidenav">
+
+			<button class="dropdown-btn">
+				Class Management <i class="fa fa-caret-down"></i>
+			</button>
+
+			<div class="dropdown-container">
+				<a href="/addcourse">Course Registration </a>
+          		<a href="/addstudent">Student Registration </a>
+          		<a href="/studentdetail">Student Search </a>
+       	 </div>
+        <a href="/userdetail">Users Management</a>
+		</div>
+		<div class="main_contents">
+			<div id="sub_content">
+
+
+				<h4 style="color:red;" th:text="${error}" >{{errorMessage}}</h4> 				
+				<h4 style="color:green;" th:text="${success}" >{{successMessage}}</h4>
+
+				<form (ngSubmit)="onSubmit()">
+
+					<h2 class="col-md-6 offset-md-2 mb-5 mt-4">Course Registration</h2>
+
+					<div class="row mb-4">
+						<div class="col-md-2"></div>
+						<label for="name" class="col-md-2 col-form-label">Course Id</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" [(ngModel)]="course.courseId" name= "courseId"readonly />
+						</div>
+					</div>
+
+					<div class="row mb-4">
+						<div class="col-md-2"></div>
+						<label for="name" class="col-md-2 col-form-label">Course Name</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" [(ngModel)]="course.courseName" name="courseName" />
+						</div>
+					</div>
+
+					<div class="row mb-4">
+						<div class="col-md-4"></div>
+
+						<div class="col-md-6">
+
+							<button type="submit" class="btn btn-secondary col-md-2"
+								data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button>
+
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="testfooter">
+		<span>Copyright &#169; ACE Inspiration 2022</span>
+	</div>
+	
+</body>
